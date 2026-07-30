@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: processing-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+        spring.json.add.type.headers: false
+
+app:
+  kafka:
+    topic: words.processed
+    partitions: 4
+    replicas: 1
+  hipsum:
+    base-url: https://hipsum.co
+    timeout: 5s
+
+logging:
+  level:
+    com.betvictor: INFO
